@@ -50,14 +50,14 @@ public class Main {
 
         Scanner in = new Scanner(System.in);
         while (in.hasNextLine()) {
-            int vertexOne = in.nextInt();
-            int vertexTwo = in.nextInt();
-            int edge = 0;
-
             String line = in.nextLine();
             Scanner lineScanner = new Scanner(line);
+            int vertexOne = lineScanner.nextInt();
+            int vertexTwo = lineScanner.nextInt();
+            int edge = 0;
+
             if (lineScanner.hasNext()) {
-                edge = in.nextInt();
+                edge = lineScanner.nextInt();
             }
             Graph graph = new Graph(vertexOne, vertexTwo, edge);
             System.out.println(graph.toString());
