@@ -1,69 +1,45 @@
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class Main {
-    public static class Graph {
-        private int vertexOne;
-        private int vertexTwo;
-        private int edge;
+    private static int[][] graphs;
+    private static int numberOfVertexes;
+    private static int numberOfEdges;
+    private static ArrayList<Integer> results = new ArrayList<>();
 
-        Graph(int vertexOne, int vertexTwo, int edge) {
-            this.vertexOne = vertexOne;
-            this.vertexTwo = vertexTwo;
-            this.edge = edge;
-        }
+    public static void main(String[] args) {
+        init();
+        solution(0, 0);
+        System.out.println(Collections.min(results));
+    }
 
-        public int getVertexOne() {
-            return vertexOne;
-        }
+    private static void init() {
+        Scanner in = new Scanner(System.in);
+        numberOfVertexes = in.nextInt();
+        numberOfEdges = in.nextInt();
+        graphs = new int[numberOfVertexes][numberOfVertexes];
 
-        public void setVertexOne(int vertexOne) {
-            this.vertexOne = vertexOne;
-        }
-
-        public int getVertexTwo() {
-            return vertexTwo;
-        }
-
-        public void setVertexTwo(int vertexTwo) {
-            this.vertexTwo = vertexTwo;
-        }
-
-        public int getEdge() {
-            return edge;
-        }
-
-        public void setEdge(int edge) {
-            this.edge = edge;
-        }
-
-        public String toString() {
-            System.out.println("vertexOne == " + vertexOne + ", vertexTwo == " + vertexTwo +
-            ", edge == " + edge);
-            return null;
+        for (int edgeNumber = 0; edgeNumber < numberOfEdges; edgeNumber++) {
+            graphs[in.nextInt() - 1][in.nextInt() - 1] = in.nextInt();
         }
     }
 
-    public static void main(String[] args) {
-        List<Graph> graphs = new ArrayList<>();
+    private static void solution(int begin, int fareToBegin) {
+        for (int end = 0; ; end++) {
+            if (graphs[begin][end] != 0) {
+                fareToBegin = fareToBegin + Math.max(0, graphs[begin][end] - fareToBegin);
+                if (end == numberOfVertexes - 1) {
+                    results.add(fareToBegin);
+                    return;
+                }
 
-        Scanner in = new Scanner(System.in);
-        while (in.hasNextLine()) {
-            String line = in.nextLine();
-            Scanner lineScanner = new Scanner(line);
-            int vertexOne = lineScanner.nextInt();
-            int vertexTwo = lineScanner.nextInt();
-            int edge = 0;
-
-            if (lineScanner.hasNext()) {
-                edge = lineScanner.nextInt();
+                solution(end, fareToBegin);
+            } else {
+                if (end == numberOfVertexes - 1) {
+                    return;
+                }
             }
-            Graph graph = new Graph(vertexOne, vertexTwo, edge);
-            System.out.println(graph.toString());
-            graphs.add(graph);
         }
-
-        System.out.println(graphs.size());
     }
 }
